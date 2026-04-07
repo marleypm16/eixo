@@ -1,5 +1,8 @@
 {
     "recommendations": [
-        
+        "golang.go",
+        "biomejs.biome",
+        "usernamehw.errorlens",
+        "bradlc.vscode-tailwindcss"
     ]
 }
