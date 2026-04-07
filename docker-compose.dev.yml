@@ -6,10 +6,16 @@ services:
     container_name: postgres_dev
     restart: always
     env_file: .env.dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dev"]
+      interval: 5s
+      retries: 5
     ports:
       - "5432:5432"
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - app-network
 
   backend:
     build: ./backend
@@ -22,16 +28,23 @@ services:
     volumes:
       - ./backend:/app
     command: air # hot reload (opcional)
+    networks:
+      - app-network
 
   frontend:
     build: ./frontend
     container_name: frontend_dev
     env_file: .env.dev
     ports:
-      - "3000:3000"
+      - "5173:5173"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     command: npm run dev
+    networks:
+      - app-network
 
 volumes:
   postgres_data_dev:
+networks:
+  app-network:

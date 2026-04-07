@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [staging, main]
+  push:
+    branches:
+      - staging
+      - main
+      - "feature/**"
+
+jobs:
+  ci:
+    name: Testes e Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ----------------
+      # REGRA: main só aceita staging
+      # ----------------
+      - name: Bloquear PR inválido para main
+        if: github.base_ref == 'main'
+        run: |
+          if [ "$GITHUB_HEAD_REF" != "staging" ]; then
+            echo "❌ Apenas staging pode fazer merge na main"
+            exit 1
+          fi
+
+      # ----------------
+      # BACKEND (GO)
+      # ----------------
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Testar backend
+        run: |
+          cd backend
+          go mod tidy
+          go vet ./...
+          go test ./...
+          go build -o app
+
+      # ----------------
+      # FRONTEND (REACT)
+      # ----------------
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Testar frontend
+        run: |
+          cd frontend
+          npm install
+          npx biome check
+          npm run build
+
+  staging:
+    name: Simular ambiente staging
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/staging'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Subir containers (staging fake)
+        run: |
+          docker compose -f docker-compose.dev.yml up -d --build
+
+      - name: Verificar serviços
+        run: |
+          docker ps
+
+  production-ready:
+    name: Produção (preparado)
+    runs-on: ubuntu-latest
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Build pronto para produção
+        run: |
+          echo "🚀 Código validado para produção"
+          echo "Quando tiver VPS, aqui entra o deploy"

@@ -1,4 +1,4 @@
-FROM golang:1.22-alpine
+FROM golang:1.26-alpine
 
 WORKDIR /app
 
@@ -7,6 +7,6 @@ RUN go mod download
 
 COPY . .
 
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/air-verse/air@latest
 
 CMD ["air"]

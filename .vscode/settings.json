@@ -1,0 +1,68 @@
+{
+  // ========================
+  // 🧠 GERAL
+  // ========================
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.rulers": [100],
+  "editor.wordWrap": "wordWrapColumn",
+  "editor.wordWrapColumn": 100,
+  "editor.minimap.enabled": false,
+
+  // ========================
+  // ✨ BIOME (JS/TS/REACT)
+  // ========================
+  "editor.defaultFormatter": "biomejs.biome",
+
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+
+  // ========================
+  // ⚛️ REACT / TS
+  // ========================
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+
+  "js/ts.suggest.autoImports": true,
+
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+
+  // ========================
+  // 🐹 GO
+  // ========================
+  "[go]": {
+    "editor.defaultFormatter": "golang.go"
+  },
+
+  "go.useLanguageServer": true,
+  "go.formatTool": "gofmt",
+  "go.lintTool": "golangci-lint",
+
+  // ========================
+  // 🔍 UX / PRODUTIVIDADE
+  // ========================
+  "editor.inlineSuggest.enabled": true,
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+
+  "files.autoSave": "onFocusChange",
+
+  // ========================
+  // 📦 IMPORTS
+  // ========================
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  }
+}
