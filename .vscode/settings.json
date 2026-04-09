@@ -10,6 +10,7 @@
   "editor.wordWrap": "wordWrapColumn",
   "editor.wordWrapColumn": 100,
   "editor.minimap.enabled": false,
+  "editor.fontFamily": "'Fira Code', 'Fira Mono', monospace",
 
   // ========================
   // ✨ BIOME (JS/TS/REACT)
